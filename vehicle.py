@@ -10,6 +10,11 @@ class Vehicle(ABC):
         self.__rental_price = 0
         self.set_battery_percentage(battery_percentage)
 
+    def __eq__(self, other):
+        if not isinstance(other, Vehicle):
+            return False
+        return self.vehicle_id == other.vehicle_id
+
     def get_battery_percentage(self):
         return self.battery_percentage
 
