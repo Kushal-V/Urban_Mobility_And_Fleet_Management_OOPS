@@ -22,6 +22,7 @@ class FleetManager:
         vehicle_type = input("Enter vehicle type (car/scooter): ").lower()
         vehicle_id = input("Enter vehicle ID: ")
 
+        # Check for duplicates in the specific hub (Basic check for now, UC 7 will improve this)
         existed_vehicle = [
             v for v in self.hubs[hub_name] if v.vehicle_id == vehicle_id
         ]
@@ -31,6 +32,7 @@ class FleetManager:
             return
 
         model = input("Enter model: ")
+        # Input validation for battery could be added here or relied on class setter
         try:
             battery = int(input("Enter battery percentage: "))
         except ValueError:
@@ -59,3 +61,34 @@ class FleetManager:
 
         self.hubs[hub_name].append(vehicle)
         print("Vehicle added successfully")
+
+    def search_vehicle(self):
+        search_key = input("Enter hub location or 'battery' to search by battery > 80: ").lower()
+
+        if search_key in self.hubs:
+            print(f"\nVehicles in hub '{search_key}':")
+            for v in self.hubs[search_key]:
+                # Assuming simple print for now, __str__ will be improved in UC 11
+                print(f"- {v.vehicle_id} ({v.model}, Battery: {v.get_battery_percentage()})")
+            return
+
+        elif search_key == "battery":
+            print("\nVehicles with battery > 80:")
+            all_vehicles = [
+                v for hub in self.hubs.values() for v in hub
+            ]
+
+            high_battery_vehicles = list(
+                filter(
+                    lambda v: v.get_battery_percentage() > 80, all_vehicles
+                )
+            )
+
+            if high_battery_vehicles:
+                for v in high_battery_vehicles:
+                    print(f"- {v.vehicle_id} ({v.model}, Battery: {v.get_battery_percentage()})")
+            else:
+                print("No vehicles found with battery > 80")
+        
+        else:
+            print("Invalid search option")
