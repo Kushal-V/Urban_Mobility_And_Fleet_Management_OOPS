@@ -1,4 +1,6 @@
-class Vehicle:
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
     def __init__(self, vehicle_id, model, battery_percentage):
         self.vehicle_id = vehicle_id
         self.model = model
@@ -40,3 +42,7 @@ class Vehicle:
             self.__status = status
         else:
             print("Invalid status")
+
+    @abstractmethod
+    def calculate_trip_cost(self, distance):
+        pass
