@@ -92,3 +92,21 @@ class FleetManager:
         
         else:
             print("Invalid search option")
+
+    def search_vehicle_by_type(self):
+        categorized = {}
+
+        for hub in self.hubs.values():
+            for vehicle in hub:
+                vehicle_type = vehicle.get_type()
+                if vehicle_type not in categorized:
+                    categorized[vehicle_type] = []
+                categorized[vehicle_type].append(vehicle)
+        
+        for vehicle_type, vehicles in categorized.items():
+            print(f"\n{vehicle_type}s:")
+            if vehicles:
+                for v in vehicles:
+                    print(f"- {v.vehicle_id} ({v.model}, Battery: {v.get_battery_percentage()})")
+            else:
+                print(f"No {vehicle_type}s found")

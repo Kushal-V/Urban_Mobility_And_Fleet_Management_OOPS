@@ -7,7 +7,8 @@ while True:
     print("1. Add hub")
     print("2. Add vehicle")
     print("3. Search vehicle")
-    print("4. Exit")
+    print("4. See vehicles by type")
+    print("5. Exit")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -17,6 +18,8 @@ while True:
     elif choice == "3":
         manager.search_vehicle()
     elif choice == "4":
+        manager.search_vehicle_by_type()
+    elif choice == "5":
         break
     else:
         print("Invalid choice")
