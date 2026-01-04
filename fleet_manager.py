@@ -110,3 +110,24 @@ class FleetManager:
                     print(f"- {v.vehicle_id} ({v.model}, Battery: {v.get_battery_percentage()})")
             else:
                 print(f"No {vehicle_type}s found")
+
+    def fleet_analysis(self):
+        fleet_vehicles = {
+            'Available': 0,
+            'On Trip' : 0,
+            'Under Maintenance' : 0
+        }
+
+        for hub in self.hubs.values():
+            for vehicle in hub:
+                status = vehicle.get_status()
+                # Ensure status is one of the expected keys to avoid KeyError if data is corrupted
+                if status in fleet_vehicles:
+                    fleet_vehicles[status] += 1
+                else:
+                    # Optional: handle unexpected status
+                    pass
+
+        print("\nFleet Analysis:")
+        for status, count in fleet_vehicles.items():
+            print(f"{status}: {count}")
