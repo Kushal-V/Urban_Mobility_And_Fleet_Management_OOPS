@@ -1,10 +1,12 @@
 from vehicle import Vehicle
 
-class ElectricScooter(Vehicle):
-    def __init__(self, vehicle_id, model, battery_percentage, max_speed_limit):
+class ElectricCar(Vehicle):
+    def __init__(self, vehicle_id, model, battery_percentage, seating_capacity):
         super().__init__(vehicle_id, model, battery_percentage)
-        self.max_speed_limit = max_speed_limit
-
     def calculate_trip_cost(self, distance):
-        # For scooter, we assume 'distance' represents minutes for simplicity in polymorphic calls
-        return 1.00 + (distance * 0.15)
+        return 5.00 + (distance * 0.50)
+
+    def to_json(self):
+        data = super().to_json()
+        data["seating_capacity"] = self.seating_capacity
+        return data

@@ -54,6 +54,17 @@ class Vehicle(ABC):
     def __str__(self):
         return f"{self.vehicle_id} ({self.model})"
 
+    def to_json(self):
+        return {
+            "vehicle_type": self.get_type(),
+            "vehicle_id": self.vehicle_id,
+            "model": self.model,
+            "battery": self.battery_percentage,
+            "status": self.__status,
+            "maintenance_status": self.__maintenance_status,
+            "rental_price": self.__rental_price
+        }
+
     @abstractmethod
     def calculate_trip_cost(self, distance):
         pass

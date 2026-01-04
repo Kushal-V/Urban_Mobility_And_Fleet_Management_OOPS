@@ -1,6 +1,7 @@
 from electric_car import ElectricCar
 from electric_scooter import ElectricScooter
 import csv
+import json
 
 class FleetManager:
     def __init__(self):
@@ -233,5 +234,51 @@ class FleetManager:
                     self.hubs[hub].append(vehicle)   
             print("Data loaded successfully")
         
+        except FileNotFoundError:
+            print("File not found")
+
+    def save_data_to_json(self):
+        file_path = input("Enter file path: ")
+        data = {}
+        for hub, vehicles in self.hubs.items():
+            data[hub] = [v.to_json() for v in vehicles]
+        
+        with open(file_path,'w') as file:
+            json.dump(data, file, indent=4)
+        print("Data saved successfully")
+        
+    
+    def load_data_from_json(self):
+        file_path = input("Enter file path: ")
+        try:
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+                
+            self.hubs.clear()
+
+            for hub, vehicles in data.items():
+                self.hubs[hub] = []
+
+                for v in vehicles:
+                    if v["vehicle_type"] == "ElectricCar":
+                        vehicle = ElectricCar(
+                            v["vehicle_id"],
+                            v["model"],
+                            int(v["battery"]),
+                            int(v["seating_capacity"])
+                        )
+                    elif v["vehicle_type"] == "ElectricScooter":
+                        vehicle = ElectricScooter(
+                            v["vehicle_id"],
+                            v["model"],
+                            int(v["battery"]),
+                            int(v["max_speed_limit"])
+                        )
+                    vehicle.set_status(v["status"])
+                    vehicle.set_maintenance_status(v["maintenance_status"])
+                    vehicle.set_rental_price(v["rental_price"])
+                    self.hubs[hub].append(vehicle)
+            print("Data loaded successfully")
+            
         except FileNotFoundError:
             print("File not found")

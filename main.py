@@ -13,7 +13,9 @@ while True:
     print("7. Advanced sorting")
     print("8. Load data from CSV")
     print("9. Save data to CSV")
-    print("10. Exit")
+    print("10. Load data from JSON")
+    print("11. Save data to JSON")
+    print("12. Exit")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -35,6 +37,10 @@ while True:
     elif choice == "9":
         manager.save_data_to_csv()
     elif choice == "10":
+        manager.load_data_from_json()
+    elif choice == "11":
+        manager.save_data_to_json()
+    elif choice == "12":
         break
     else:
         print("Invalid choice")
