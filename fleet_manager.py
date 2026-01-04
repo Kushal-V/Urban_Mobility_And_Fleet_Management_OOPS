@@ -131,3 +131,12 @@ class FleetManager:
         print("\nFleet Analysis:")
         for status, count in fleet_vehicles.items():
             print(f"{status}: {count}")
+
+    def sort_vehicles(self):
+        for vehicles in self.hubs.values():
+            vehicles.sort(key=lambda v: v.model.lower())
+        
+        for hub, vehicles in self.hubs.items():
+            print(f"\nHub: {hub}")
+            for v in vehicles:
+                print(f"- {v}")

@@ -48,6 +48,12 @@ class Vehicle(ABC):
         else:
             print("Invalid status")
 
+    def get_type(self):
+        return self.__class__.__name__
+
+    def __str__(self):
+        return f"{self.vehicle_id} ({self.model})"
+
     @abstractmethod
     def calculate_trip_cost(self, distance):
         pass
