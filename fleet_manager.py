@@ -1,5 +1,6 @@
 from electric_car import ElectricCar
 from electric_scooter import ElectricScooter
+import csv
 
 class FleetManager:
     def __init__(self):
@@ -170,3 +171,67 @@ class FleetManager:
             
         else:
             print("Invalid sorting type")
+
+    def save_data_to_csv(self):
+        file_path = input("Enter file path: ")
+
+        with open(file_path, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                "Hub", "VehicleType", "VehicleID", "Model",
+                "Battery", "Status",
+                "MaintenanceStatus", "RentalPrice",
+                "SeatingCapacity", "MaxSpeed"
+            ])
+
+            for hub, vehicles in self.hubs.items():
+                for v in vehicles:
+                    if isinstance(v, ElectricCar):
+                        writer.writerow([
+                            hub, "ElectricCar", v.vehicle_id, v.model,
+                            v.get_battery_percentage(), v.get_status(),
+                            v.get_maintenance_status(), v.get_rental_price(),
+                            v.seating_capacity, ""
+                        ])
+                    elif isinstance(v, ElectricScooter):
+                        writer.writerow([
+                            hub, "ElectricScooter", v.vehicle_id, v.model,
+                            v.get_battery_percentage(), v.get_status(),
+                            v.get_maintenance_status(), v.get_rental_price(),
+                            "", v.max_speed_limit
+                        ])
+        print("Data saved successfully")
+
+    def load_data_from_csv(self):
+        file_path = input("Enter file path: ")
+        try:
+            with open(file_path, 'r') as file:
+                reader = csv.DictReader(file)
+                self.hubs.clear()
+                for row in reader:
+                    hub = row["Hub"]
+                    if hub not in self.hubs:
+                        self.hubs[hub] = []
+                    
+                    if row["VehicleType"] == "ElectricCar":
+                        vehicle = ElectricCar(
+                            row["VehicleID"],
+                            row["Model"],
+                            int(row["Battery"]),
+                            int(row["SeatingCapacity"])
+                        )
+                    elif row["VehicleType"] == "ElectricScooter":
+                        vehicle = ElectricScooter(
+                            row["VehicleID"],
+                            row["Model"],
+                            int(row["Battery"]),
+                            int(row["MaxSpeed"])
+                        )
+                    vehicle.set_status(row["Status"])
+                    vehicle.set_maintenance_status(row["MaintenanceStatus"])
+                    vehicle.set_rental_price(float(row["RentalPrice"]))
+                    self.hubs[hub].append(vehicle)   
+            print("Data loaded successfully")
+        
+        except FileNotFoundError:
+            print("File not found")

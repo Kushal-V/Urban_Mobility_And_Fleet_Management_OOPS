@@ -11,7 +11,9 @@ while True:
     print("5. Fleet analysis")
     print("6. Sort vehicles")
     print("7. Advanced sorting")
-    print("8. Exit")
+    print("8. Load data from CSV")
+    print("9. Save data to CSV")
+    print("10. Exit")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -29,6 +31,10 @@ while True:
     elif choice == "7":
         manager.advanced_sorting()
     elif choice == "8":
+        manager.load_data_from_csv()
+    elif choice == "9":
+        manager.save_data_to_csv()
+    elif choice == "10":
         break
     else:
         print("Invalid choice")
