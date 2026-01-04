@@ -10,7 +10,8 @@ while True:
     print("4. See vehicles by type")
     print("5. Fleet analysis")
     print("6. Sort vehicles")
-    print("7. Exit")
+    print("7. Advanced sorting")
+    print("8. Exit")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -26,6 +27,8 @@ while True:
     elif choice == "6":
         manager.sort_vehicles()
     elif choice == "7":
+        manager.advanced_sorting()
+    elif choice == "8":
         break
     else:
         print("Invalid choice")

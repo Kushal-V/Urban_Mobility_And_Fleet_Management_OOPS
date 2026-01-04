@@ -140,3 +140,33 @@ class FleetManager:
             print(f"\nHub: {hub}")
             for v in vehicles:
                 print(f"- {v}")
+
+    def advanced_sorting(self):
+        sort_type = input("Enter sorting type (battery-level or fare-price): ").lower()
+
+        all_vehicles = [
+            v for hub in self.hubs.values() for v in hub
+        ]
+
+        if sort_type == "battery-level":
+            # Sort by battery descending
+            sorted_vehicles = sorted(all_vehicles, key=lambda v: v.get_battery_percentage(), reverse=True)
+            for v in sorted_vehicles:
+                print(f"{v} Battery: {v.get_battery_percentage()}")
+            
+        elif sort_type == "fare-price":
+            def fare_price(v):
+                # Standardize trip for comparison: 10km for cars, 30min for scooters
+                if isinstance(v, ElectricCar):
+                    return v.calculate_trip_cost(10)
+                elif isinstance(v, ElectricScooter):
+                    return v.calculate_trip_cost(30)
+                else:
+                    return float('inf')
+            
+            sorted_vehicles = sorted(all_vehicles, key=fare_price)
+            for v in sorted_vehicles:
+                print(f"{v} Fare: {fare_price(v)}")
+            
+        else:
+            print("Invalid sorting type")
